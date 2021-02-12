@@ -14,24 +14,8 @@ class SelectProfile extends TwilioClientCommand {
 
   async run() {
     await super.run();
-    var { stdout } = await exec("twilio profiles:list");
-    let choices = stdout.split("\n");
-    let currentProfile;
-    // Remove first line (header)
-    choices.shift();
-    // Remove last line (empty line )
-    choices.pop();
-    choices = choices.map((row, index) => {
-      let pairs = /(.*?) AC(.*?) /.exec(row);
-      if (row.indexOf(" true ") > -1) {
-        currentProfile = index;
-      }
-      return {
-        name: `${pairs[1].trim()} (${pairs[2].trim()})`,
-        value: pairs[1].trim(),
-      };
-    });
-
+    let choices = await this.getProfiles();
+    let currentProfile = choices.findIndex((profile) => profile.selected);
     console.log("Current profile: ", choices[currentProfile].name);
     let choice = await inquirer.prompt([
       {
@@ -41,14 +25,43 @@ class SelectProfile extends TwilioClientCommand {
         pageSize: 15,
         message: "Select the profile you want to enable",
         choices: choices,
+        loop: false,
       },
     ]);
-    var useProfile = await exec(`twilio profiles:use ${choice.profile}`);
-    let parseOutput = /set (.*?) as active profile/.exec(useProfile.stderr);
+    console.log(await this.setProfile(choice.profile));
+  }
+
+  async getProfiles() {
+    var { stdout } = await exec("twilio profiles:list");
+    let profiles = stdout.split("\n");
+    // Remove first line (header)
+    profiles.shift();
+    // Remove last line (empty line )
+    profiles.pop();
+    profiles = profiles.map((row, index) => {
+      let pairs = /(.*?) AC(.*?) /.exec(row);
+      return {
+        name: `${pairs[1].trim()} (${pairs[2].trim()})`,
+        value: pairs[1].trim(),
+        selected: row.indexOf(" true ") > -1,
+      };
+    });
+    // Order alphabetically
+    profiles.sort((a, b) => {
+      return a.name < b.name ? -1 : 1;
+    });
+    return profiles;
+  }
+
+  async setProfile(profileName) {
+    var { stdout, stderr } = await exec(
+      `twilio profiles:use ${profileName}`
+    );
+    let parseOutput = /set (.*?) as active profile/.exec(stderr);
     if (parseOutput) {
-      console.log(`Set ${parseOutput[1]} as active profile`);
+      return `Set ${parseOutput[1]} as active profile`;
     } else {
-      console.log("Error setting profile\n", useProfile.stderr);
+      return "Error setting profile\n" + stderr;
     }
   }
 }

@@ -1,13 +1,14 @@
 {
-  "name": "@twilio/plugin-debugger",
-  "description": "explore debug events generated during your Twilio use",
-  "version": "1.1.9",
-  "author": "Twilio @twilio",
-  "bugs": "https://github.com/twilio/twilio-cli/issues",
+  "name": "@gverni/plugin-select",
+  "description": "Easily select and display your Twilio resource",
+  "version": "1.0.0",
+  "author": "@vernig",
+  "bugs": "https://github.com/vernig/plugin-select/issues",
   "dependencies": {
     "@oclif/command": "^1.5.20",
     "@oclif/config": "^1.15.1",
-    "@twilio/cli-core": "^5.0.0"
+    "@twilio/cli-core": "^5.0.0",
+    "inquirer": "^7.3.3"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",
@@ -27,7 +28,7 @@
     "/oclif.manifest.json",
     "/src"
   ],
-  "homepage": "https://github.com/twilio/plugin-debugger",
+  "homepage": "",
   "keywords": [
     "oclif-plugin"
   ],
@@ -42,13 +43,13 @@
     ],
     "topics": {
       "debugger": {
-        "description": "explore debug events generated during your Twilio use"
+        "description": "Easily select and display your Twilio resource"
       }
     }
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/twilio/plugin-debugger.git"
+    "url": "https://github.com/vernig/plugin-select"
   },
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",

@@ -1,56 +1,44 @@
-@twilio/plugin-debugger
+@gverni/plugin-select
 ========================
 
-Access and stream your Twilio debugger logs.
+This plugin for Twilio CLI allows for an easier selection of Twilio resources for display and selection.
 
-**The default branch name for this repository has been changed to `main` as of 07/22/2020.**
+Currently only selection of the Twilio project is enabled. More resources will be added in the future. 
 
-<!-- toc -->
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
-## Setup
+## Install 
 
-Head over to the [twilio-cli documentation](https://www.twilio.com/docs/twilio-cli/quickstart).
+In your terminal type: 
 
-# Usage
+```shell
+twilio plugins:install @gverni/plugin-select
+```
 
-```sh-session
-$ twilio --help debugger
+Once installed, type: 
+
+```shell 
+twilio select
+```
+
+If you see this: 
+
+```shell
+Select and switch your Twilio account / profile
+
 USAGE
-  $ twilio debugger
-...
+  $ twilio select:COMMAND
+
+COMMANDS
+  select:profile  Select and switch your Twilio account / profile
 ```
 
-# Commands
-<!-- commands -->
-* [`twilio debugger:logs:list`](#twilio-debuggerlogslist)
+Then your plugin is correctly installed.
 
-## `twilio debugger:logs:list`
+# Usage  
 
-Show a list of log events generated for the account
+To select your Twilio project / account, type: 
 
-```
-USAGE
-  $ twilio debugger:logs:list
-
-OPTIONS
-  -l=(debug|info|warn|error|none)           [default: info] Level of logging messages.
-  -o=(columns|json|tsv)                     [default: columns] Format of command output.
-  -p, --profile=profile                     Shorthand identifier for your profile.
-  -s, --streaming                           Continuously stream incoming log events
-  --end-date=end-date                       Only show log events on or before this date
-  --log-level=(error|warning|notice|debug)  Only show log events for this log level
-
-  --properties=properties                   [default: dateCreated, logLevel, errorCode, alertText] The event properties
-                                            you would like to display (JSON output always shows all properties)
-
-  --start-date=start-date                   Only show log events on or after this date
-
-DESCRIPTION
-  Argg, this is only a subset of the log events and live tailing isn't quite ready! Think this is a killer feature? Let 
-  us know here: https://twil.io/twilio-cli-feedback
+```shell
+twilio select:profile
 ```
 
-_See code: [src/commands/debugger/logs/list.js](https://github.com/twilio/plugin-debugger/blob/1.1.9/src/commands/debugger/logs/list.js)_
-<!-- commandsstop -->
+A list of available profiles is shown, with the active one selected. Move the arrow and choose your profile. 

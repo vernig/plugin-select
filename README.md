@@ -10,7 +10,7 @@ Currently only selection of the Twilio project is enabled. More resources will b
 In your terminal type: 
 
 ```shell
-twilio plugins:install @gverni/plugin-select
+twilio plugins:install vernig/plugin-select
 ```
 
 Once installed, type: 

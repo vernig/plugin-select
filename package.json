@@ -1,5 +1,5 @@
 {
-  "name": "@gverni/plugin-select",
+  "name": "vernig/plugin-select",
   "description": "Easily select and display your Twilio resource",
   "version": "1.0.0",
   "author": "@vernig",

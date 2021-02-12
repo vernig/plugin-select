@@ -1,4 +1,4 @@
-@gverni/plugin-select
+Twilio CLI plugin-select
 ========================
 
 This plugin for Twilio CLI allows for an easier selection of Twilio resources for display and selection.

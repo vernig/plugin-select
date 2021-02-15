@@ -32,6 +32,7 @@ class SelectProfile extends TwilioClientCommand {
   }
 
   async getProfiles() {
+    console.log('Fetching profile(s)...')
     var { stdout } = await exec("twilio profiles:list");
     let profiles = stdout.split("\n");
     // Remove first line (header)

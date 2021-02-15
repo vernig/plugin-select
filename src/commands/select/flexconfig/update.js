@@ -49,6 +49,7 @@ class SelectFlexConfigUpdate extends TwilioClientCommand {
     await this.updateFlexConfig(
       this.setValue(this.flexConfig, choice.property, newValue.value)
     );
+    console.log("Flex Configuration updated succesfully");
   }
 
   setValue(obj, properties, newValue) {
@@ -117,7 +118,7 @@ class SelectFlexConfigUpdate extends TwilioClientCommand {
         options
       );
       let responseJSON = await response.json();
-      if (responseJSON.status === 404) {
+      if (responseJSON.status >= 400) {
         throw new TwilioCliError(
           responseJSON.message + ". Are you sure this is a Flex Project?"
         );
@@ -130,9 +131,11 @@ class SelectFlexConfigUpdate extends TwilioClientCommand {
 
   async updateFlexConfig(config) {
     try {
+      let accountSid = config["account_sid"];
       this.immutableProperties.forEach((property) => {
         delete config[property];
       });
+      config["account_sid"] = accountSid;
 
       let options = {
         method: "POST",
@@ -149,9 +152,12 @@ class SelectFlexConfigUpdate extends TwilioClientCommand {
         options
       );
       let responseJSON = await response.json();
+      if (responseJSON.status >= 400) {
+        throw new TwilioCliError(responseJSON.message);
+      }
       return responseJSON;
     } catch (error) {
-      throw new TwilioCliError("Error updating Flex Configuration");
+      throw new TwilioCliError("Error updating Flex Configuration.\n" + error);
     }
   }
 

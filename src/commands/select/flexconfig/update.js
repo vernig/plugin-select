@@ -11,6 +11,15 @@ class SelectFlexConfigUpdate extends TwilioClientCommand {
     this.flexConfig = {};
     this.showHeaders = true;
     this.latestLogEvents = [];
+    this.immutableProperties = [
+      "account_sid",
+      "status",
+      "flex_service_instance_sid",
+      "runtime_domain",
+      "taskrouter_workspace_sid",
+      "service_version",
+      "taskrouter_offline_activity_sid",
+    ];
   }
 
   async run() {
@@ -63,13 +72,20 @@ class SelectFlexConfigUpdate extends TwilioClientCommand {
     try {
       let tmpArray = [];
       let indent = ancestors.length * 2;
-      for (const key in obj) {
+      let sortedEntries = Object.entries(obj).sort((a, b) =>
+        a[0] < b[0] ? -1 : 1
+      );
+      for (const [key, value] of sortedEntries) {
         let keyString = `${Array(indent).join(" ")}${key}: `;
-        if (obj[key] === null || typeof obj[key] !== "object") {
-          tmpArray.push({
-            name: `${keyString} ${obj[key]},`,
-            value: [...ancestors, key],
-          });
+        if (value === null || typeof value !== "object") {
+          if (this.immutableProperties.indexOf(key) > -1) {
+            tmpArray.push(new inquirer.Separator(`${keyString} ${value}`));
+          } else {
+            tmpArray.push({
+              name: `${keyString} ${value},`,
+              value: [...ancestors, key],
+            });
+          }
         } else {
           tmpArray = [
             ...tmpArray,
@@ -102,24 +118,19 @@ class SelectFlexConfigUpdate extends TwilioClientCommand {
       );
       let responseJSON = await response.json();
       if (responseJSON.status === 404) {
-        throw new TwilioCliError(responseJSON.message + '. Are you sure this is a Flex Project?');
+        throw new TwilioCliError(
+          responseJSON.message + ". Are you sure this is a Flex Project?"
+        );
       }
       return responseJSON;
     } catch (error) {
-      throw new TwilioCliError('Error fetching Flex Configuration.\n' + error);
+      throw new TwilioCliError("Error fetching Flex Configuration.\n" + error);
     }
   }
 
   async updateFlexConfig(config) {
     try {
-      [
-        "status",
-        "flex_service_instance_sid",
-        "runtime_domain",
-        "taskrouter_workspace_sid",
-        "service_version",
-        "taskrouter_offline_activity_sid",
-      ].forEach((property) => {
+      this.immutableProperties.forEach((property) => {
         delete config[property];
       });
 
@@ -146,7 +157,9 @@ class SelectFlexConfigUpdate extends TwilioClientCommand {
 
   backupConfig(config) {
     let now = new Date();
-    let fileName = `flexconfig_${config.account_sid}_${now
+    let fileName = `flexconfig_${
+      config.account_sid
+    }_${now
       .toISOString()
       .replace(/:/g, "")
       .replace(/-/g, "")

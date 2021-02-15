@@ -1,14 +1,15 @@
 {
   "name": "plugin-select",
   "description": "Easily select and display your Twilio resource",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "@vernig",
   "bugs": "https://github.com/vernig/plugin-select/issues",
   "dependencies": {
     "@oclif/command": "^1.5.20",
     "@oclif/config": "^1.15.1",
     "@twilio/cli-core": "^5.0.0",
-    "inquirer": "^7.3.3"
+    "inquirer": "^7.3.3",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",
@@ -34,7 +35,7 @@
   ],
   "license": "MIT",
   "oclif": {
-    "name": "debugger",
+    "name": "select",
     "commands": "./src/commands",
     "bin": "twilio",
     "repositoryPrefix": "<%- repo %>/blob/<%- version %>/<%- commandPath %>",
@@ -42,9 +43,10 @@
       "@oclif/plugin-help"
     ],
     "topics": {
-      "debugger": {
+      "select": {
         "description": "Easily select and display your Twilio resource"
-      }
+      },
+      "select:flexconfig": {"description": "Update, backup and restore your Flex Configuration"}
     }
   },
   "repository": {

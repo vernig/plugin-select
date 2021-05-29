@@ -80,4 +80,4 @@ Restore the Flex configuration from file.
 twilio select:flexconfig:restore
 ```
 
-The plugin will show the files in the current directory whose file name is `flexconfig_AC*`. 
+The plugin will show the files in the current directory whose file name is `flexconfig_AC*`.

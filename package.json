@@ -1,7 +1,7 @@
 {
   "name": "plugin-select",
   "description": "Easily select and display your Twilio resource",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "author": "@vernig",
   "bugs": "https://github.com/vernig/plugin-select/issues",
   "dependencies": {
@@ -46,7 +46,9 @@
       "select": {
         "description": "Easily select and display your Twilio resource"
       },
-      "select:flexconfig": {"description": "Update, backup and restore your Flex Configuration"}
+      "select:flexconfig": {
+        "description": "Update, backup and restore your Flex Configuration"
+      }
     }
   },
   "repository": {
